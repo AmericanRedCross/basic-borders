@@ -73,21 +73,6 @@ exports.neBorders = function(req, res) {
 	var getID2 = [];
 	var params = [];
 
-	//Grab POST or QueryString args depending on type
-	if (req.method.toLowerCase() == 'post') {
-		var getID = req.body;
-	}
-	else if (req.method.toLowerCase() == 'get') {
-		var getID = req.params.id;	
-	}
-
-	log(getID);
-
-	for(var i=0;i<getID.length;i++){
-		getID2.push(getID[i].name);
-		params.push('$'+(i+1));
-	}
-
 	if (!args.year) {
 		args.year = new Date().getFullYear();
 	}
@@ -120,20 +105,45 @@ exports.neBorders = function(req, res) {
 
 	switch (args.qtype) {
 		case 'iso':
-			qType = 'adm0_a3';
+			qColumn = 'adm0_a3';
+			qType = 'iso';
 			break;
 		case 'name':
-			qType = 'name'
+			qColumn = 'name'
+			qType = 'name';
 			break;
+	}
+
+	log(args);
+
+	//Grab POST or QueryString args depending on type
+	if (req.method.toLowerCase() == 'post') {
+		var getID = req.body;
+
+		for(var i=0;i<getID.length;i++){
+			if (qType == 'iso') {
+				getID2.push(getID[i].iso);
+			} else {
+				getID2.push(getID[i].name);
+			}
+			params.push('$'+(i+1));
+		}
+	}
+	else if (req.method.toLowerCase() == 'get') {
+		var getID = req.params.id;
+		getID2.push(getID);
+		params.push('$1');	
 	}
 
 	client.connect();
 	
 	var queryText = "SELECT name, year, adm0_a3, 'Feature' As type, ST_AsGeoJSON(ne0."+ args.geom + ")::json As geometry FROM naturalearth0 As ne0";
 	if (getID != 'world') {
-		queryText += " WHERE "+qType+" IN("+params.join(",")+")";
+		queryText += " WHERE "+qColumn+" IN("+params.join(",")+")";
+		var query = client.query(queryText, getID2);
+	} else {
+		var query = client.query(queryText);
 	}
-	var query = client.query(queryText, getID2);
 
 	query.on("row", function (row, response) {
 		response.addRow(row);
@@ -147,12 +157,12 @@ exports.neBorders = function(req, res) {
     });
 	
 	query.on("end", function (response) {
-		log('query executed \n' + query);
+		log('query executed \n' + queryText);
 		var resFormated = geoJSONFormatter(response.rows);
 		res.setHeader('Content-Type', 'application/json');
 
 		if (args.callback) {
-			res.json(resFormated);
+			res.jsonp(resFormated);
 		} else {
 			res.send(200,resFormated);
 		}
