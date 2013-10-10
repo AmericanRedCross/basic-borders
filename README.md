@@ -24,6 +24,7 @@ Sample Request:
 [http://webviz.redcross.org/basicborders/ITA?callback=callback](http://webviz.redcross.org/basicborders/ITA?callback=callback)
 
 Sample Response:
+  
   callback && callback({
     "type": "Feature",
     "id": 83,
@@ -92,5 +93,3 @@ Sample Response:
       ]
     }
   });
-
-
