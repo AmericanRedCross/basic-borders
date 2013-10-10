@@ -6,6 +6,7 @@ settings = require('../settings');
 
 var conString = "postgres://" + settings.pg.username + ":" + settings.pg.password + "@" + settings.pg.server + ":" + settings.pg.port + "/" + settings.pg.database;
 var client = new pg.Client(conString);
+client.connect();
 
 //Configure Loggly (logging API)
 var config = {
@@ -114,9 +115,7 @@ exports.neBorders = function(req, res) {
 			break;
 	}
 
-	log(args);
-
-	//Grab POST or QueryString args depending on type
+		//Grab POST or QueryString args depending on type
 	if (req.method.toLowerCase() == 'post') {
 		var getID = req.body;
 
@@ -135,7 +134,9 @@ exports.neBorders = function(req, res) {
 		params.push('$1');	
 	}
 
-	client.connect();
+	log(params);
+	log(args);
+	log(getID);
 	
 	var queryText = "SELECT name, year, adm0_a3, 'Feature' As type, ST_AsGeoJSON(ne0."+ args.geom + ")::json As geometry FROM naturalearth0 As ne0";
 	if (getID != 'world') {
@@ -165,6 +166,9 @@ exports.neBorders = function(req, res) {
 			res.jsonp(resFormated);
 		} else {
 			res.send(200,resFormated);
+			res.end('This is the end', function() {
+				log('all done');
+			});
 		}
 		
 		client.end();
