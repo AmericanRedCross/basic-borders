@@ -5,8 +5,7 @@ ga = require('nodealytics'),
 settings = require('../settings');
 
 var conString = "postgres://" + settings.pg.username + ":" + settings.pg.password + "@" + settings.pg.server + ":" + settings.pg.port + "/" + settings.pg.database;
-var client = new pg.Client(conString);
-client.connect();
+
 
 //Configure Loggly (logging API)
 var config = {
@@ -137,6 +136,9 @@ exports.neBorders = function(req, res) {
 	log(params);
 	log(args);
 	log(getID);
+
+	var client = new pg.Client(conString);
+	client.connect();
 	
 	var queryText = "SELECT name, year, adm0_a3, 'Feature' As type, ST_AsGeoJSON(ne0."+ args.geom + ")::json As geometry FROM naturalearth0 As ne0";
 	if (getID != 'world') {
