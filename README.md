@@ -6,10 +6,6 @@ Overview
 
 Sometimes you just need a country border to put on a simple leaflet map. The Basic Borders Database supplies the simplified geometry for a given country. The geometry is based on [Natural Earth](http://naturalearth.com) with manipualtion and simplification by Red Cross Internation Services. 
 
-Disclaimer
------------------
-*The Basic Borders Database is not an inclusive list of all world countries. The inclusion, exclusion, or geometry of a country does not imply the expression of any opinion on the part of the American Red Cross concerning the legal status of a territory or of its authorities.*
-
 Service Endpoint
 -----------------
 
@@ -94,3 +90,7 @@ callback && callback({
   ]
 });
 ```
+
+Disclaimer
+-----------------
+*The Basic Borders Database is not an inclusive list of all world countries. The inclusion, exclusion, or geometry of a country does not imply the expression of any opinion on the part of the American Red Cross concerning the legal status of a territory or of its authorities.*
