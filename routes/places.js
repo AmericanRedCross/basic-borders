@@ -35,6 +35,7 @@ function geoJSONFormatter(rows, geom_fields_array) {
     var featureCollection = { "type": "FeatureCollection", "features": [] };
 
     rows.forEach(function (row) {
+    	// log(row['geometry']);
         var feature = { "type": "Feature", "properties": {} };
         //Depending on whether or not there is geometry properties, handle it.  If multiple geoms, use a GeometryCollection output for GeoJSON.
         if (geom_fields_array && geom_fields_array.length == 1) {
@@ -62,6 +63,12 @@ function geoJSONFormatter(rows, geom_fields_array) {
 
         feature.properties = row;
         featureCollection.features.push(feature);
+
+        //final check
+        if (feature.properties.geometry) {
+        	feature.geometry = feature.properties.geometry;
+        	delete feature.properties.geometry;
+        }
     })
 
     return featureCollection;
@@ -133,14 +140,14 @@ exports.neBorders = function(req, res) {
 		params.push('$1');	
 	}
 
-	log(params);
-	log(args);
-	log(getID);
+	// log(params);
+	// log(args);
+	// log(getID);
 
 	var client = new pg.Client(conString);
 	client.connect();
 	
-	var queryText = "SELECT name, year, adm0_a3, 'Feature' As type, ST_AsGeoJSON(ne0."+ args.geom + ")::json As geometry FROM naturalearth0 As ne0";
+	var queryText = "SELECT name, year, adm0_a3, ST_AsGeoJSON("+ args.geom + ")::json AS geometry FROM naturalearth0";
 	if (getID != 'world') {
 		queryText += " WHERE "+qColumn+" IN("+params.join(",")+")";
 		var query = client.query(queryText, getID2);
