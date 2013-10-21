@@ -44,50 +44,49 @@ The service can also return a world file by using 'world' as your query.
 [http://webviz.redcross.org/basicborders/world?callback=callback](http://webviz.redcross.org/basicborders/world?callback=callback)
 
 Simple Sample GET Request:
-[http://webviz.redcross.org/basicborders/VAT?callback=callback](http://webviz.redcross.org/basicborders/ITA?callback=callback)
+[http://webviz.redcross.org/basicborders/VAT?callback=callback](http://webviz.redcross.org/basicborders/VAT?callback=callback)
 
 Sample Response:
 ```javascript
 callback && callback({
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "Vatican",
-        "year": 2013,
-        "adm0_a3": "VAT",
-        "type": "Feature",
-        "geometry": {
-          "type": "Polygon",
-          "coordinates": [
-            [
-              [
-                12.453125,
-                41.9028930664062
-              ],
-              [
-                12.453125,
-                41.9039306640625
-              ],
-              [
-                12.4541015625,
-                41.9039306640625
-              ],
-              [
-                12.4541015625,
-                41.9028930664062
-              ],
-              [
-                12.453125,
-                41.9028930664062
-              ]
+   "type":"FeatureCollection",
+   "features":[
+      {
+         "type":"Feature",
+         "properties":{
+            "name":"Vatican",
+            "year":2013,
+            "adm0_a3":"VAT"
+         },
+         "geometry":{
+            "type":"Polygon",
+            "coordinates":[
+               [
+                  [
+                     12.453125,
+                     41.9028930664062
+                  ],
+                  [
+                     12.453125,
+                     41.9039306640625
+                  ],
+                  [
+                     12.4541015625,
+                     41.9039306640625
+                  ],
+                  [
+                     12.4541015625,
+                     41.9028930664062
+                  ],
+                  [
+                     12.453125,
+                     41.9028930664062
+                  ]
+               ]
             ]
-          ]
-        }
+         }
       }
-    }
-  ]
+   ]
 });
 ```
 
