@@ -9,7 +9,7 @@ At the Red Cross we create a lot of documents. This service builds on the [CLAVI
 Service Endpoint
 -----------------
 
-There is currently only one endpoint for all services [http://webviz.redcross.org:4000/geodoc/](http://webviz.redcross.org/geodoc/).
+There is currently only one endpoint for all services [http://webviz.redcross.org/geodoc/](http://webviz.redcross.org/geodoc/).
 
 The service returns a either a JSON or JSONP object by posting arguments with the document name and text to be parsed.
 
