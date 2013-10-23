@@ -27,7 +27,7 @@ var postArgs = {
   text: "I really like the food in France but my favorite food is from India."
 };
 
-var url = 'http://webviz.redcross.org:4000/geodoc/';
+var url = 'http://webviz.redcross.org/geodoc/';
 
 //Send POST, using JSONP
 $.getJSON(url + "?callback=?", postArgs).done(function (data) {
