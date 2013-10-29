@@ -1,5 +1,4 @@
-var pg = require('pg'),
-loggly = require('loggly'),
+var loggly = require('loggly'),
 ga = require('nodealytics'),
 fs = require('fs'),
 async = require('async'),
