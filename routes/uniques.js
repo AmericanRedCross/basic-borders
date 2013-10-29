@@ -106,9 +106,6 @@ exports.gdpcClavin = function(req,res) {
                 res.jsonp(places);
             });
         }
-
-        //log(stdout);
-        
     });
 
 }
@@ -125,26 +122,24 @@ function makePlaces(places, callback) {
 
     var pS1 = places.indexOf('{') + 1;
     var pE1 = places.indexOf('(') - 1;
-        var pS2 = pE1 + 2;
-        var pE2 = places.indexOf(',');
-        var pS3 = pE2 + 1;
-        var pE3 = places.indexOf(')');
+    var pS2 = pE1 + 2;
+    var pE2 = places.indexOf(',');
+    var pS3 = pE2 + 1;
+    var pE3 = places.indexOf(')');
 
-        var place1 = places.substring(pS1,pE1);
-        var place2 = places.substring(pS2,pE2);
-        var place3 = places.substring(pS3,pE3);
+    var place1 = places.substring(pS1,pE1);
+    var place2 = places.substring(pS2,pE2);
+    var place3 = places.substring(pS3,pE3);
 
-        if (place2 != 'United States') {
-            if (place3 != ' 00') {
-                placesArr.push(place1, place2, place3);
-            } else {
-                placesArr.push(place1, place2);
-            }
-
+    if (place2 != 'United States') {
+        if (place3 != ' 00') {
+            placesArr.push(place1, place2, place3);
         } else {
-            placesArr.push(place1 + ',' + place3, place2);
+            placesArr.push(place1, place2);
         }
 
-                // log(placesArr);
-                callback(null, placesArr);
-            }
+    } else {
+        placesArr.push(place1 + ',' + place3, place2);
+    }
+    callback(null, placesArr);
+}
