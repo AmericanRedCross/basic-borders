@@ -68,6 +68,25 @@ callback && callback({
 });
 ```
 
+Sometimes the text doesn't have any place names. In that case you'll get the below response.
+
+Sample Null Response:
+```javascript
+{
+   "documentName":"testDoc",
+   "date":"2013-10-29T02:49:59.678Z",
+   "resolvedLocations":[
+      {
+         "name":"None Found",
+         "centroid":{
+            "lat":"",
+            "lng":""
+         }
+      }
+   ]
+}
+```
+
 Disclaimer
 -----------------
 *This database is not an inclusive list of all world places. The inclusion, exclusion, or geometry of a country or place does not imply the expression of any opinion on the part of the American Red Cross concerning the legal status of a territory or of its authorities.*
