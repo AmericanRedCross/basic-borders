@@ -106,6 +106,8 @@ exports.neBorders = function(req, res) {
 	    case 'med':
 	    	args.geom = 'geom_simplify_med';
 	    	break;
+	    case 'quick':
+	    	break;
 	    default:
 	    	args.geom = 'geom_simplify_high';
     }
@@ -147,41 +149,45 @@ exports.neBorders = function(req, res) {
 	var client = new pg.Client(conString);
 	client.connect();
 	
-	var queryText = "SELECT name, year, adm0_a3, ST_AsGeoJSON("+ args.geom + ")::json AS geometry FROM naturalearth0";
 	if (getID != 'world') {
+		var queryText = "SELECT name, year, adm0_a3, ST_AsGeoJSON("+ args.geom + ")::json AS geometry FROM naturalearth0";
 		queryText += " WHERE "+qColumn+" IN("+params.join(",")+")";
 		var query = client.query(queryText, getID2);
+
+		query.on("row", function (row, response) {
+			response.addRow(row);
+		});
+
+		//Handle query error - fires before end event
+		query.on('error', function (error) {
+			res.status = 'error';
+			res.message = error;
+			log('error \n' + error);
+		});
+		
+		query.on("end", function (response) {
+			log('query executed \n' + queryText);
+			var resFormated = geoJSONFormatter(response.rows);
+			res.setHeader('Content-Type', 'application/json');
+
+			if (args.callback) {
+				res.jsonp(resFormated);
+			} else {
+				res.send(200,resFormated);
+			}
+			
+			client.end();
+		});
 	} else {
-		var query = client.query(queryText);
-	}
-
-	query.on("row", function (row, response) {
-		response.addRow(row);
-	});
-
-	//Handle query error - fires before end event
-    query.on('error', function (error) {
-        res.status = 'error';
-        res.message = error;
-        log('error \n' + error);
-    });
-	
-	query.on("end", function (response) {
-		log('query executed \n' + queryText);
-		var resFormated = geoJSONFormatter(response.rows);
-		res.setHeader('Content-Type', 'application/json');
+		var worldJSON = require('../worldcountries.json');
+		log('worldJSON is being called');
 
 		if (args.callback) {
-			res.jsonp(resFormated);
+			res.jsonp(worldJSON);
 		} else {
-			res.send(200,resFormated);
-			res.end('This is the end', function() {
-				log('all done');
-			});
+			res.send(200,worldJSON);
 		}
-		
-		client.end();
-	});
+	}	
 };
 
 //Utilities
