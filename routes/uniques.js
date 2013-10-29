@@ -95,7 +95,10 @@ exports.gdpcClavin = function(req,res) {
         var clavinRep = stdout.substring(cS,cE).split('#$#$');
         // clavinRep = clavinRep.split('#$#$');
         if (cS == -1) {
-            uniques.resolvedLocations.push('None Found');
+            var location = {};
+            location.name = 'None Found';
+            location.centroid = {'lat': '', 'lng':''};
+            uniques.resolvedLocations.push(location);
             res.jsonp(uniques);
         } else {
             log('calling parse Clavin');
