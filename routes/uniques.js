@@ -6,6 +6,7 @@ settings = require('../settings');
 
 //Configure Loggly (logging API)
 var config = {
+    token: settings.loggly.token,
     subdomain: settings.loggly.subdomain,
     auth: {
         username: settings.loggly.username,

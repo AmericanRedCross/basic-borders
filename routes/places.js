@@ -9,6 +9,7 @@ var conString = "postgres://" + settings.pg.username + ":" + settings.pg.passwor
 
 //Configure Loggly (logging API)
 var config = {
+	token: settings.loggly.token,
     subdomain: settings.loggly.subdomain,
     auth: {
         username: settings.loggly.username,
