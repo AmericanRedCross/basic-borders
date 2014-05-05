@@ -1,10 +1,14 @@
 {
-    "name": "GDPC",
-    "description": "GDPC Clavin Server",
-    "version": "0.0.1",
-    "private": true,
-    "dependencies": {
-        "express": "3.x",
-        "pg": "*"
-    }
+  "name": "basicborders",
+  "description": "Basic Border Service",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "^3.5.2",
+    "pg": "^3.0.3",
+    "async": "^0.8.0",
+    "url": "^0.10.1",
+    "nodealytics": "*",
+    "loggly": "^1.0.4"
+  }
 }
