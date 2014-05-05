@@ -4,7 +4,7 @@ Red Cross Basic Borders Database
 Overview
 ----------------
 
-Sometimes you just need a country border to put on a simple leaflet map. The Basic Borders Database supplies the simplified geometry for a given country. The geometry is based on [Natural Earth](http://naturalearth.com) with manipualtion and simplification by Red Cross Internation Services. 
+Sometimes you just need a country border to put on a simple leaflet map. The Basic Borders Database supplies the simplified geometry for a given country. The geometry is based on [Natural Earth](http://naturalearth.com) with manipulation and simplification by Red Cross International Services.
 
 Service Endpoint
 -----------------
