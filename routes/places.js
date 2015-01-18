@@ -140,7 +140,7 @@ exports.neBorders = function(req, res) {
 	else if (req.method.toLowerCase() == 'get') {
 		var getID = req.params.id;
 		getID2.push(getID);
-		params.push('$1');	
+		params.push('$1');
 	}
 
 	// log(params);
@@ -149,9 +149,9 @@ exports.neBorders = function(req, res) {
 
 	var client = new pg.Client(conString);
 	client.connect();
-	
+
 	if (getID != 'world') {
-		var queryText = "SELECT name, year, adm0_a3, ST_AsGeoJSON("+ args.geom + ")::json AS geometry FROM naturalearth0";
+		var queryText = "SELECT name, year, adm0_a3, ST_AsGeoJSON("+ args.geom + ")::json AS geometry FROM gadm0_2012";
 		queryText += " WHERE "+qColumn+" IN("+params.join(",")+")";
 		var query = client.query(queryText, getID2);
 
@@ -165,7 +165,7 @@ exports.neBorders = function(req, res) {
 			res.message = error;
 			log('error \n' + error);
 		});
-		
+
 		query.on("end", function (response) {
 			log('query executed \n' + queryText);
 			var resFormated = geoJSONFormatter(response.rows);
@@ -176,7 +176,7 @@ exports.neBorders = function(req, res) {
 			} else {
 				res.send(200,resFormated);
 			}
-			
+
 			client.end();
 		});
 	} else {
@@ -188,7 +188,7 @@ exports.neBorders = function(req, res) {
 		} else {
 			res.send(200,worldJSON);
 		}
-	}	
+	}
 };
 
 //Utilities
